@@ -4,16 +4,20 @@ import WeatherCard from "./components/WeatherCard/WeatherCard";
 import useFetchWeather from "./helpers/hooks/useFetchWeather";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import SearchHistoryPage from "./pages/SearchHistoryPage";
+import FavoritesPage from "./pages/FavoritesPage";
 
 function App() {
   const [city, setCity] = useState("");
   const [history, setHistory] = useState({});
+  const [favorites, setFavorites] = useState([]);
 
   const { weatherData, isLoading, error } = useFetchWeather({ city });
 
   useEffect(() => {
-    const saved = JSON.parse(localStorage.getItem("history")) || {};
-    setHistory(saved);
+    const savedHistory = JSON.parse(localStorage.getItem("history")) || {};
+    setHistory(savedHistory);
+    const savedFavorites = JSON.parse(localStorage.getItem("favorites")) || [];
+    setFavorites(savedFavorites);
   }, []);
 
   useEffect(() => {
@@ -33,6 +37,23 @@ function App() {
     if (!newCity.trim()) return;
     setCity(newCity.trim());
   };
+
+  const handleFavorite = (city) => {
+    const savedFavorites = JSON.parse(localStorage.getItem("favorites")) || [];
+    if (!savedFavorites.includes(city)) {
+      const updated = [...savedFavorites, city];
+      localStorage.setItem("favorites", JSON.stringify(updated));
+      setFavorites(updated);
+    }
+  };
+
+  const handleRemoveFavorite = (city) => {
+    const savedFavorites = JSON.parse(localStorage.getItem("favorites")) || [];
+    const updated = [...savedFavorites.filter((c) => c !== city)];
+    localStorage.setItem("favorites", JSON.stringify(updated));
+    setFavorites(updated);
+  };
+
   return (
     <Router>
       <nav>
@@ -47,7 +68,13 @@ function App() {
               <Search onSearch={handleSearch} />
               {isLoading && <p>Загрузка...</p>}
               {error && <p>Ошибка: {error.message}</p>}
-              {weatherData && <WeatherCard data={weatherData} />}
+              {weatherData && (
+                <WeatherCard data={weatherData} onFavorite={handleFavorite} />
+              )}
+              <FavoritesPage
+                favorites={favorites}
+                onRemoveFavorite={handleRemoveFavorite}
+              />
             </>
           }
         />
