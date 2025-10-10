@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
-import { fetchWeather } from "../helpers/fetchWeather";
-import FavoritesCard from "../components/FavoritesCard/FavoritesCard";
+import { fetchWeather } from "../../helpers/fetchWeather";
+import style from "./style.module.css";
+import WeatherCard from "../WeatherCard/WeatherCard";
 
-function FavoritesPage({ favorites, onRemoveFavorite }) {
+function Favorites({ favorites, onRemoveFavorite }) {
   const [weatherDataList, setWeatherDataList] = useState([]);
 
   useEffect(() => {
@@ -22,14 +23,14 @@ function FavoritesPage({ favorites, onRemoveFavorite }) {
   }, [favorites]);
 
   return (
-    <div>
+    <div className={style.favorites}>
       <h2>Избранное:</h2>
-      <div>
+      <div className={style.cards}>
         {weatherDataList.map((data) => (
-          <FavoritesCard
+          <WeatherCard
             data={data}
             onRemoveFavorite={onRemoveFavorite}
-            key={data.name}
+            key={data.searchedAt}
           />
         ))}
       </div>
@@ -37,4 +38,4 @@ function FavoritesPage({ favorites, onRemoveFavorite }) {
   );
 }
 
-export default FavoritesPage;
+export default Favorites;

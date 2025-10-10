@@ -1,36 +1,26 @@
 import { useEffect, useState } from "react";
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import Search from "./components/Search/Search";
 import WeatherCard from "./components/WeatherCard/WeatherCard";
-import useFetchWeather from "./helpers/hooks/useFetchWeather";
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import Favorites from "./components/Favorites/Favorites";
 import SearchHistoryPage from "./pages/SearchHistoryPage";
-import FavoritesPage from "./pages/FavoritesPage";
+import useFetchWeather from "./helpers/hooks/useFetchWeather";
+import { addToHistory } from "./helpers/history";
+import { getFavorites, addFavorite, removeFavorite } from "./helpers/favorites";
+import Header from "./components/Header/Header";
 
 function App() {
   const [city, setCity] = useState("");
-  const [history, setHistory] = useState({});
   const [favorites, setFavorites] = useState([]);
 
   const { weatherData, isLoading, error } = useFetchWeather({ city });
 
   useEffect(() => {
-    const savedHistory = JSON.parse(localStorage.getItem("history")) || {};
-    setHistory(savedHistory);
-    const savedFavorites = JSON.parse(localStorage.getItem("favorites")) || [];
-    setFavorites(savedFavorites);
+    setFavorites(getFavorites());
   }, []);
 
   useEffect(() => {
-    if (weatherData) {
-      const saved = JSON.parse(localStorage.getItem("history")) || {};
-      const dataWithDate = {
-        ...weatherData,
-        searchedAt: new Date().toISOString(),
-      };
-      saved[weatherData.name] = dataWithDate;
-      localStorage.setItem("history", JSON.stringify(saved));
-      setHistory(saved);
-    }
+    if (weatherData) addToHistory(weatherData);
   }, [weatherData]);
 
   const handleSearch = (newCity) => {
@@ -39,48 +29,41 @@ function App() {
   };
 
   const handleFavorite = (city) => {
-    const savedFavorites = JSON.parse(localStorage.getItem("favorites")) || [];
-    if (!savedFavorites.includes(city)) {
-      const updated = [...savedFavorites, city];
-      localStorage.setItem("favorites", JSON.stringify(updated));
-      setFavorites(updated);
-    }
+    const updated = addFavorite(city);
+    setFavorites(updated);
   };
 
   const handleRemoveFavorite = (city) => {
-    const savedFavorites = JSON.parse(localStorage.getItem("favorites")) || [];
-    const updated = [...savedFavorites.filter((c) => c !== city)];
-    localStorage.setItem("favorites", JSON.stringify(updated));
+    const updated = removeFavorite(city);
     setFavorites(updated);
   };
 
   return (
     <Router>
-      <nav>
-        <Link to="/">Главная</Link> | <Link to="/history">Истоия поиска</Link>
-      </nav>
+      <Header />
       <Routes>
         <Route
           path="/"
           element={
             <>
-              <h1>Погода</h1>
               <Search onSearch={handleSearch} />
               {isLoading && <p>Загрузка...</p>}
-              {error && <p>Ошибка: {error.message}</p>}
+              {error && <p>{error.message}</p>}
               {weatherData && (
                 <WeatherCard data={weatherData} onFavorite={handleFavorite} />
               )}
-              <FavoritesPage
-                favorites={favorites}
-                onRemoveFavorite={handleRemoveFavorite}
-              />
+              {favorites.length > 0 && (
+                <Favorites
+                  favorites={favorites}
+                  onRemoveFavorite={handleRemoveFavorite}
+                />
+              )}
             </>
           }
         />
         <Route
           path="/history"
-          element={<SearchHistoryPage history={history} onSelect={setCity} />}
+          element={<SearchHistoryPage onSelect={setCity} />}
         />
       </Routes>
     </Router>

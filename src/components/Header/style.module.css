@@ -1,0 +1,19 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 40px 0;
+}
+
+.logo {
+  font-size: 40px;
+  font-weight: 700;
+}
+
+.nav {
+  font-size: 18px;
+}
+
+.nav a:not(:last-child) {
+  margin-right: 30px;
+}

@@ -1,0 +1,9 @@
+.cards {
+  display: flex;
+  justify-content: space-between;
+  gap: 30px;
+}
+
+.favorites {
+  margin-top: 50px;
+}
