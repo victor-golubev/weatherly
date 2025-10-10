@@ -1,4 +1,4 @@
-function WeatherCard({ data, onFavorite }) {
+function FavoritesCard({ data, onRemoveFavorite }) {
   const { name, main, weather, wind } = data;
   const iconUrl = `https://openweathermap.org/img/wn/${weather[0].icon}@2x.png`;
 
@@ -11,9 +11,11 @@ function WeatherCard({ data, onFavorite }) {
       <p>Ощущается как: {Math.round(main.feels_like)}°C</p>
       <p>Влажность: {main.humidity}%</p>
       <p>Ветер: {wind.speed} м/с</p>
-      <button onClick={() => onFavorite(name)}>Добавить в избранное</button>
+      <button onClick={() => onRemoveFavorite(name)}>
+        Удалить из избранного
+      </button>
     </div>
   );
 }
 
-export default WeatherCard;
+export default FavoritesCard;
