@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import style from "./style.module.css";
 
 const SearchHistoryPage = ({ onSelect }) => {
   const navigate = useNavigate();
@@ -27,25 +28,25 @@ const SearchHistoryPage = ({ onSelect }) => {
   if (history.length === 0) return <p>История поиска пуста.</p>;
 
   return (
-    <div>
-      <h1>История поиска</h1>
+    <div className={style.history}>
       <input
         type="text"
         value={inputSearch}
         onChange={handleChange}
         placeholder="Поиск по истории"
+        className={style.input}
       />
-
+      <h1>История поиска</h1>
       {filteredHistory.map((city, i) => (
         <div
           key={city.searchedAt}
           onClick={() => handleClick(city.name)}
-          style={{ marginBottom: "10px", cursor: "pointer" }}
+          className={style.card}
         >
-          <strong>{city.name}</strong>: {city.main?.temp}°C,{" "}
-          {city.weather?.[0]?.description}
-          <br />
-          Поиск: {new Date(city.searchedAt).toLocaleString()}
+          <p>
+            {city.name}: {city.main?.temp}°C, {city.weather?.[0]?.description}
+          </p>
+          <p>Поиск: {new Date(city.searchedAt).toLocaleString()}</p>
         </div>
       ))}
     </div>

@@ -2,8 +2,9 @@ import { useEffect, useState } from "react";
 import { fetchWeather } from "../../helpers/fetchWeather";
 import style from "./style.module.css";
 import WeatherCard from "../WeatherCard/WeatherCard";
+import FavoritesCard from "../FavoritesCard/FavoritesCard";
 
-function Favorites({ favorites, onRemoveFavorite }) {
+function Favorites({ favorites, onSelect, onRemoveFavorite }) {
   const [weatherDataList, setWeatherDataList] = useState([]);
 
   useEffect(() => {
@@ -27,8 +28,9 @@ function Favorites({ favorites, onRemoveFavorite }) {
       <h2>Избранное:</h2>
       <div className={style.cards}>
         {weatherDataList.map((data) => (
-          <WeatherCard
+          <FavoritesCard
             data={data}
+            onSelect={onSelect}
             onRemoveFavorite={onRemoveFavorite}
             key={data.searchedAt}
           />

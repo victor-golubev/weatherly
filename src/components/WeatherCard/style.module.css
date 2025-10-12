@@ -1,9 +1,11 @@
 .card {
   position: relative;
   display: flex;
-  width: 300px;
+  width: 860px;
+  height: 380px;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
   padding: 25px;
   border-radius: 10px;
   -webkit-border-radius: 10px;
@@ -14,17 +16,20 @@
   font-size: 18px;
 }
 
-p {
-  margin-top: 10px;
+.main {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 48px;
 }
 
 .title {
-  font-size: 32px;
+  font-size: 48px;
   font-weight: 700;
 }
 
 .title span {
-  font-size: 32px;
+  font-size: 48px;
   font-weight: 300;
 }
 
@@ -34,4 +39,23 @@ p {
   right: 25px;
   background-color: var(--color-primary);
   font-size: 18px;
+}
+
+.info {
+  display: flex;
+  justify-content: space-between;
+}
+
+.block {
+  padding: 15px;
+}
+
+.subtitle {
+  font-size: 16px;
+}
+
+.value {
+  margin-top: 0;
+  font-size: 24px;
+  font-weight: 700;
 }

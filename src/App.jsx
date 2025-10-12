@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import Search from "./components/Search/Search";
 import WeatherCard from "./components/WeatherCard/WeatherCard";
 import Favorites from "./components/Favorites/Favorites";
-import SearchHistoryPage from "./pages/SearchHistoryPage";
+import SearchHistoryPage from "./pages/SearchHistoryPage/SearchHistoryPage";
 import useFetchWeather from "./helpers/hooks/useFetchWeather";
 import { addToHistory } from "./helpers/history";
 import { getFavorites, addFavorite, removeFavorite } from "./helpers/favorites";
@@ -55,6 +55,7 @@ function App() {
               {favorites.length > 0 && (
                 <Favorites
                   favorites={favorites}
+                  onSelect={setCity}
                   onRemoveFavorite={handleRemoveFavorite}
                 />
               )}

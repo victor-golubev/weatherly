@@ -1,13 +1,15 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import style from "./style.module.css";
 
 function Header() {
+  const location = useLocation();
+
   return (
     <div className={style.header}>
       <div className={style.logo}>Weatherly</div>
       <nav className={style.nav}>
-        <Link to="/">Главная</Link>
-        <Link to="/history">История поиска</Link>
+        {location.pathname === "/" && <Link to="/history">История поиска</Link>}
+        {location.pathname === "/history" && <Link to="/">Главная</Link>}
       </nav>
     </div>
   );
