@@ -6,7 +6,9 @@ function Header() {
 
   return (
     <div className={style.header}>
-      <div className={style.logo}>Weatherly</div>
+      <Link to="/" className={style.logo}>
+        Weatherly
+      </Link>
       <nav className={style.nav}>
         {location.pathname === "/" && <Link to="/history">История поиска</Link>}
         {location.pathname === "/history" && <Link to="/">Главная</Link>}

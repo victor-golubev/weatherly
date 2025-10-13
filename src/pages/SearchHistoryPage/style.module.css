@@ -3,28 +3,6 @@
   flex-direction: column;
 }
 
-.card {
-  display: flex;
-  justify-content: space-between;
-  padding: 12px 25px;
-  border-radius: 10px;
-  -webkit-border-radius: 10px;
-  -moz-border-radius: 10px;
-  -ms-border-radius: 10px;
-  -o-border-radius: 10px;
-  background-color: var(--color-primary-dark);
-  cursor: pointer;
-  transition: filter 0.2s ease;
-  -webkit-transition: filter 0.2s ease;
-  -moz-transition: filter 0.2s ease;
-  -ms-transition: filter 0.2s ease;
-  -o-transition: filter 0.2s ease;
-}
-
-.card:not(:last-child) {
-  margin-bottom: 15px;
-}
-
 .input {
   height: 100%;
   margin-bottom: 30px;
@@ -39,7 +17,19 @@ input::placeholder {
   font-weight: 300;
 }
 
-.card:hover {
-  filter: brightness(110%);
-  -webkit-filter: brightness(110%);
+.title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.title h1 {
+  font-size: 32px;
+}
+
+.clear {
+  font-size: 14px;
+  padding: 10px;
+  height: fit-content;
 }

@@ -2,6 +2,7 @@
   --color-bg: #f9f9f9;
   --color-primary: #4f7e99;
   --color-primary-dark: #273b46;
+  --color-primary-light: #829397;
   --color-text: #ffffff;
   --color-card-bg: #ffffff;
   --color-accent: #3d6278;
@@ -38,7 +39,6 @@ h1,
 h2,
 h3 {
   font-weight: 600;
-  margin-bottom: 15px;
 }
 
 h2 {

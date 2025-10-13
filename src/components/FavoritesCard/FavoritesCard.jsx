@@ -1,4 +1,5 @@
 import style from "./style.module.css";
+import { X } from "lucide-react";
 
 function FavoritesCard({ data, onFavorite, onSelect, onRemoveFavorite }) {
   const { name, main, weather, wind } = data;
@@ -14,6 +15,7 @@ function FavoritesCard({ data, onFavorite, onSelect, onRemoveFavorite }) {
       <h2 className={style.title}>
         {name} <span>{Math.round(main.temp)}°C</span>
       </h2>
+      <p className={style.description}>{weather[0].description}</p>
       {onRemoveFavorite && (
         <button
           onClick={(e) => {
@@ -22,7 +24,7 @@ function FavoritesCard({ data, onFavorite, onSelect, onRemoveFavorite }) {
           }}
           className={style.favorite}
         >
-          ×
+          <X size={16} color="white" />
         </button>
       )}
     </div>

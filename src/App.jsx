@@ -50,7 +50,11 @@ function App() {
               {isLoading && <p>Загрузка...</p>}
               {error && <p>{error.message}</p>}
               {weatherData && (
-                <WeatherCard data={weatherData} onFavorite={handleFavorite} />
+                <WeatherCard
+                  data={weatherData}
+                  onFavorite={handleFavorite}
+                  onRemoveFavorite={handleRemoveFavorite}
+                />
               )}
               {favorites.length > 0 && (
                 <Favorites

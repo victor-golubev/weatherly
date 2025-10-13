@@ -25,14 +25,14 @@ function Favorites({ favorites, onSelect, onRemoveFavorite }) {
 
   return (
     <div className={style.favorites}>
-      <h2>Избранное:</h2>
+      <h2 className={style.favorites}>Избранное:</h2>
       <div className={style.cards}>
-        {weatherDataList.map((data) => (
+        {weatherDataList.map((data, i) => (
           <FavoritesCard
             data={data}
             onSelect={onSelect}
             onRemoveFavorite={onRemoveFavorite}
-            key={data.searchedAt}
+            key={i}
           />
         ))}
       </div>

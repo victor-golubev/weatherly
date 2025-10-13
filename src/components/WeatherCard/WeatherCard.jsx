@@ -1,28 +1,62 @@
 import style from "./style.module.css";
+import { Heart } from "lucide-react";
+import { getFavorites } from "../../helpers/favorites";
+import { useState } from "react";
 
 function WeatherCard({ data, onFavorite, onRemoveFavorite }) {
   const { name, main, weather, wind, sys } = data;
   const iconUrl = `https://openweathermap.org/img/wn/${weather[0].icon}@4x.png`;
+  const [isFavorite, setIsFavorite] = useState(() => {
+    getFavorites().includes(name);
+  });
+
   const description =
     weather[0].description[0].toUpperCase() + weather[0].description.slice(1);
   if (!data || !main || !weather || !wind) return null;
+
   const sunrise = new Date(sys.sunrise * 1000).toLocaleTimeString("ru-RU", {
     hour: "numeric",
     minute: "2-digit",
   });
+
+  const toggleFavorite = () => {
+    if (isFavorite) {
+      onRemoveFavorite(name);
+    } else {
+      onFavorite(name);
+    }
+    setIsFavorite((prev) => !prev);
+  };
+
   const sunset = new Date(sys.sunset * 1000).toLocaleTimeString("ru-RU", {
     hour: "numeric",
     minute: "2-digit",
   });
 
+  const now = new Date();
+
+  const options = {
+    weekday: "long",
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+  };
+
+  const formatted = new Intl.DateTimeFormat("ru-RU", options)
+    .format(now)
+    .replace(/^./, (c) => c.toUpperCase());
+
   return (
     <div className={style.card}>
+      <div className={style.date}>{formatted}</div>
       <div className={style.main}>
         <h2 className={style.title}>
           {name} <span>{Math.round(main.temp)}°C</span>
         </h2>
 
-        <img src={iconUrl} alt={weather[0].description} />
+        <img src={iconUrl} alt={weather[0].description} className={style.img} />
       </div>
       <div className={style.info}>
         <div className={style.block}>
@@ -51,8 +85,13 @@ function WeatherCard({ data, onFavorite, onRemoveFavorite }) {
         </div>
       </div>
       {onFavorite && (
-        <button onClick={() => onFavorite(name)} className={style.favorite}>
-          ♥
+        <button onClick={toggleFavorite} className={style.favorite}>
+          <Heart
+            size={20}
+            color="white"
+            fill={isFavorite ? "white" : "none"}
+            style={{ cursor: "pointer" }}
+          />
         </button>
       )}
     </div>

@@ -9,3 +9,7 @@ export const addToHistory = (weatherData) => {
 export const getHistory = () => {
   return JSON.parse(localStorage.getItem("history")) || [];
 };
+
+export const clearHistory = () => {
+  localStorage.setItem("history", JSON.stringify([]));
+};

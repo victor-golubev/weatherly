@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import style from "./style.module.css";
+import { clearHistory } from "../../helpers/history";
+import HistoryCard from "../../components/HistoryCard/HistoryCard";
 
 const SearchHistoryPage = ({ onSelect }) => {
   const navigate = useNavigate();
-  const [history] = useState(
+  const [history, setHistory] = useState(
     () => JSON.parse(localStorage.getItem("history")) || []
   );
   const [inputSearch, setInputSearch] = useState("");
@@ -13,6 +15,12 @@ const SearchHistoryPage = ({ onSelect }) => {
   const handleClick = (city) => {
     onSelect(city);
     navigate("/");
+  };
+
+  const handleClearHistory = () => {
+    clearHistory([]);
+    setHistory([]);
+    setFilteredHistory([]);
   };
 
   const handleChange = (e) => {
@@ -36,18 +44,14 @@ const SearchHistoryPage = ({ onSelect }) => {
         placeholder="Поиск по истории"
         className={style.input}
       />
-      <h1>История поиска</h1>
+      <div className={style.title}>
+        <h1>История поиска</h1>
+        <button className={style.clear} onClick={handleClearHistory}>
+          Очистить историю
+        </button>
+      </div>
       {filteredHistory.map((city, i) => (
-        <div
-          key={city.searchedAt}
-          onClick={() => handleClick(city.name)}
-          className={style.card}
-        >
-          <p>
-            {city.name}: {city.main?.temp}°C, {city.weather?.[0]?.description}
-          </p>
-          <p>Поиск: {new Date(city.searchedAt).toLocaleString()}</p>
-        </div>
+        <HistoryCard city={city} key={i} onClick={handleClick} />
       ))}
     </div>
   );

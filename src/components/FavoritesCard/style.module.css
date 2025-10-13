@@ -5,7 +5,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 15px;
+  padding: 25px 15px;
   border-radius: 10px;
   -webkit-border-radius: 10px;
   -moz-border-radius: 10px;
@@ -29,6 +29,7 @@
 .title {
   font-size: 22px;
   font-weight: 700;
+  margin-bottom: 0;
 }
 
 .title span {
@@ -41,5 +42,15 @@
   top: 15px;
   right: 15px;
   background-color: var(--color-primary);
-  font-size: 16px;
+  font-size: 0;
+  height: 38px;
+  width: 38px;
+  padding: 0;
+}
+
+.description {
+  font-size: 15px;
+  line-height: 1.2;
+  text-align: center;
+  color: var(--color-primary-light);
 }
