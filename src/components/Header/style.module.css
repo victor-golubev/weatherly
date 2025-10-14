@@ -1,0 +1,20 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 40px 0;
+}
+
+.logo {
+  font-size: 40px;
+  font-weight: 700;
+  color: color-mix(in srgb, var(--color-accent), white 30%);
+}
+
+.nav {
+  font-size: 18px;
+}
+
+.nav a:not(:last-child) {
+  margin-right: 30px;
+}

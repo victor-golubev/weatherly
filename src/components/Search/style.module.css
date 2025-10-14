@@ -1,0 +1,23 @@
+.form {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 40px;
+}
+
+.input {
+  height: 100%;
+  padding: 20px;
+  background-color: var(--color-primary-dark);
+  border: none;
+  color: var(--color-text);
+}
+input::placeholder {
+  color: var(--color-text);
+  opacity: 0.6;
+  font-weight: 300;
+}
+
+.button {
+  min-width: 120px;
+}

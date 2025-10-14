@@ -22,7 +22,7 @@ function useFetchWeather({ city }) {
         const result = await response.json();
         setWeatherData(result);
       } catch (error) {
-        setError(error.message);
+        setError(error);
         setWeatherData(null);
       } finally {
         setIsLoading(false);
