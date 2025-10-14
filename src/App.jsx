@@ -13,7 +13,6 @@ function App() {
   const [city, setCity] = useState("");
   const [isUseSearch, setIsUseSearch] = useState(false);
   const [favorites, setFavorites] = useState([]);
-
   const { weatherData, isLoading, error } = useFetchWeather({ city });
 
   const handleSearch = (newCity) => {
