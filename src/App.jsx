@@ -37,10 +37,19 @@ function App() {
   }, []);
 
   useEffect(() => {
+    if (!weatherData?.name) return;
+
+    const isFav = favorites.some(
+      (fav) => fav.toLowerCase() === weatherData.name.toLowerCase()
+    );
+
+    weatherData.isFavorite = isFav;
+  }, [weatherData, favorites]);
+
+  useEffect(() => {
     if (weatherData && isUseSearch) addToHistory(weatherData);
     if (!weatherData && !isUseSearch) setCity("Moscow");
     if (!weatherData && getHistory().length) {
-      console.log(getHistory()[0].name);
       setCity(getHistory()[0].name);
     }
   }, [weatherData]);

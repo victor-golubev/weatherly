@@ -4,7 +4,7 @@ export const getFavorites = () =>
 
 export const addFavorite = (city) => {
   const saved = getFavorites();
-  if (saved.includes(city)) return saved; // не дублируем
+  if (saved.includes(city)) return saved;
   const updated = [...saved, city];
   localStorage.setItem("favorites", JSON.stringify(updated));
   return updated;

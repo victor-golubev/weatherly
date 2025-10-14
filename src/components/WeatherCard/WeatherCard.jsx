@@ -1,14 +1,14 @@
 import style from "./style.module.css";
 import { Heart } from "lucide-react";
 import { getFavorites } from "../../helpers/favorites";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 function WeatherCard({ data, onFavorite, onRemoveFavorite }) {
   const { name, main, weather, wind, sys } = data;
   const iconUrl = `https://openweathermap.org/img/wn/${weather[0].icon}@4x.png`;
-  const [isFavorite, setIsFavorite] = useState(() => {
-    getFavorites().includes(name);
-  });
+  const [isFavorite, setIsFavorite] = useState(() =>
+    getFavorites().includes(name)
+  );
 
   const description =
     weather[0].description[0].toUpperCase() + weather[0].description.slice(1);
@@ -48,6 +48,10 @@ function WeatherCard({ data, onFavorite, onRemoveFavorite }) {
     .format(now)
     .replace(/^./, (c) => c.toUpperCase());
 
+  useEffect(() => {
+    setIsFavorite(getFavorites().includes(name));
+  }, [name]);
+
   return (
     <div className={style.card}>
       <div className={style.date}>{formatted}</div>
@@ -84,16 +88,15 @@ function WeatherCard({ data, onFavorite, onRemoveFavorite }) {
           <p className={style.value}>{sunset}</p>
         </div>
       </div>
-      {onFavorite && (
-        <button onClick={toggleFavorite} className={style.favorite}>
-          <Heart
-            size={20}
-            color="white"
-            fill={isFavorite ? "white" : "none"}
-            style={{ cursor: "pointer" }}
-          />
-        </button>
-      )}
+
+      <button onClick={toggleFavorite} className={style.favorite}>
+        <Heart
+          size={20}
+          color="white"
+          fill={isFavorite ? "white" : "none"}
+          style={{ cursor: "pointer" }}
+        />
+      </button>
     </div>
   );
 }
