@@ -13,7 +13,6 @@ function App() {
   const [city, setCity] = useState("");
   const [isUseSearch, setIsUseSearch] = useState(false);
   const [favorites, setFavorites] = useState([]);
-
   const { weatherData, isLoading, error } = useFetchWeather({ city });
 
   const handleSearch = (newCity) => {
@@ -40,7 +39,6 @@ function App() {
     if (weatherData && isUseSearch) addToHistory(weatherData);
     if (!weatherData && !isUseSearch) setCity("Moscow");
     if (!weatherData && getHistory().length) {
-      console.log(getHistory()[0].name);
       setCity(getHistory()[0].name);
     }
   }, [weatherData]);
@@ -54,9 +52,13 @@ function App() {
           element={
             <>
               <Search onSearch={handleSearch} />
-              {isLoading && <p>Загрузка...</p>}
+              {isLoading && (
+                <div className="loading">
+                  <p>Загрузка...</p>
+                </div>
+              )}
               {error && <p>{error.message}</p>}
-              {weatherData && (
+              {weatherData && !isLoading && (
                 <WeatherCard
                   data={weatherData}
                   onFavorite={handleFavorite}
