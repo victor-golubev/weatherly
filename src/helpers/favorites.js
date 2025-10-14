@@ -1,4 +1,3 @@
-// helpers/favorites.js
 export const getFavorites = () =>
   JSON.parse(localStorage.getItem("favorites")) || [];
 
