@@ -9,7 +9,7 @@ function HistoryCard({ city, onClick }) {
     >
       <div className={style.left}>
         <p>
-          {city.name} {city.main?.temp}°C, {city.weather?.[0]?.description}
+          {city.name} | {city.main?.temp}°C | {city.weather?.[0]?.description}
         </p>
         <img
           src={`https://openweathermap.org/img/wn/${city.weather?.[0]?.icon}@4x.png`}

@@ -1,11 +1,10 @@
 :root {
   --color-bg: #f9f9f9;
-  --color-primary: #4f7e99;
-  --color-primary-dark: #273b46;
-  --color-primary-light: #829397;
+  --color-primary: #7ed0ff;
+  --color-primary-dark: #629dbd;
+  --color-primary-light: #b8e8fa;
   --color-text: #ffffff;
-  --color-card-bg: #ffffff;
-  --color-accent: #3d6278;
+  --color-accent: #57b3ca;
 }
 
 * {
@@ -17,12 +16,12 @@
 
 body {
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  background: #253741;
+  background: var(--color-primary-dark);
   background: linear-gradient(
     164deg,
-    rgba(37, 55, 65, 1) 0%,
-    rgba(27, 38, 44, 1) 50%,
-    rgba(37, 55, 65, 1) 100%
+    rgb(89, 156, 192) 0%,
+    rgb(47, 122, 161) 50%,
+    rgb(119, 169, 196) 100%
   );
   color: #fff;
   line-height: 1.5;
@@ -56,18 +55,18 @@ a {
 }
 
 a:hover {
-  color: var(--color-primary);
+  color: var(--color-accent);
 }
 
 button {
   padding: 8px 12px;
   border: none;
-  border-radius: 10px;
-  background: #2f5569;
+  border-radius: 20px;
+  background: var(--color-accent);
   background: linear-gradient(
     145deg,
-    rgba(47, 85, 105, 1) 0%,
-    rgba(61, 98, 120, 1) 50%
+    var(--color-accent) 0%,
+    var(--color-accent) 50%
   );
   color: white;
   cursor: pointer;
@@ -76,27 +75,27 @@ button {
   -moz-transition: all 0.2s ease;
   -ms-transition: all 0.2s ease;
   -o-transition: all 0.2s ease;
-  -webkit-border-radius: 10px;
-  -moz-border-radius: 10px;
-  -ms-border-radius: 10px;
-  -o-border-radius: 10px;
+  -webkit-border-radius: 20px;
+  -moz-border-radius: 20px;
+  -ms-border-radius: 20px;
+  -o-border-radius: 20px;
 }
 
 button:hover {
-  filter: brightness(110%);
-  -webkit-filter: brightness(110%);
+  filter: brightness(105%);
+  -webkit-filter: brightness(105%);
 }
 
 input,
 textarea {
   padding: 8px;
   border: 1px solid #ccc;
-  border-radius: 10px;
+  border-radius: 20px;
   width: 100%;
-  -webkit-border-radius: 10px;
-  -moz-border-radius: 10px;
-  -ms-border-radius: 10px;
-  -o-border-radius: 10px;
+  -webkit-border-radius: 20px;
+  -moz-border-radius: 20px;
+  -ms-border-radius: 20px;
+  -o-border-radius: 20px;
 }
 
 input:focus,

@@ -5,27 +5,21 @@ import WeatherCard from "./components/WeatherCard/WeatherCard";
 import Favorites from "./components/Favorites/Favorites";
 import SearchHistoryPage from "./pages/SearchHistoryPage/SearchHistoryPage";
 import useFetchWeather from "./helpers/hooks/useFetchWeather";
-import { addToHistory } from "./helpers/history";
+import { addToHistory, getHistory } from "./helpers/history";
 import { getFavorites, addFavorite, removeFavorite } from "./helpers/favorites";
 import Header from "./components/Header/Header";
 
 function App() {
   const [city, setCity] = useState("");
+  const [isUseSearch, setIsUseSearch] = useState(false);
   const [favorites, setFavorites] = useState([]);
 
   const { weatherData, isLoading, error } = useFetchWeather({ city });
 
-  useEffect(() => {
-    setFavorites(getFavorites());
-  }, []);
-
-  useEffect(() => {
-    if (weatherData) addToHistory(weatherData);
-  }, [weatherData]);
-
   const handleSearch = (newCity) => {
     if (!newCity.trim()) return;
     setCity(newCity.trim());
+    setIsUseSearch(true);
   };
 
   const handleFavorite = (city) => {
@@ -37,6 +31,19 @@ function App() {
     const updated = removeFavorite(city);
     setFavorites(updated);
   };
+
+  useEffect(() => {
+    setFavorites(getFavorites());
+  }, []);
+
+  useEffect(() => {
+    if (weatherData && isUseSearch) addToHistory(weatherData);
+    if (!weatherData && !isUseSearch) setCity("Moscow");
+    if (!weatherData && getHistory().length) {
+      console.log(getHistory()[0].name);
+      setCity(getHistory()[0].name);
+    }
+  }, [weatherData]);
 
   return (
     <Router>

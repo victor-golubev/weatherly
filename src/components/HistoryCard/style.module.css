@@ -4,7 +4,7 @@
   align-items: center;
   padding: 12px 25px;
   border-radius: 10px;
-  -webkit-border-radius: 10px;
+  -webkit-border-radius: 20px;
   -moz-border-radius: 10px;
   -ms-border-radius: 10px;
   -o-border-radius: 10px;
@@ -32,7 +32,7 @@
 }
 
 .right {
-  color: #688596;
+  color: var(--color-primary-light);
 }
 
 .img {
