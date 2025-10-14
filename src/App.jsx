@@ -36,16 +36,6 @@ function App() {
   }, []);
 
   useEffect(() => {
-    if (!weatherData?.name) return;
-
-    const isFav = favorites.some(
-      (fav) => fav.toLowerCase() === weatherData.name.toLowerCase()
-    );
-
-    weatherData.isFavorite = isFav;
-  }, [weatherData, favorites]);
-
-  useEffect(() => {
     if (weatherData && isUseSearch) addToHistory(weatherData);
     if (!weatherData && !isUseSearch) setCity("Moscow");
     if (!weatherData && getHistory().length) {
@@ -62,9 +52,13 @@ function App() {
           element={
             <>
               <Search onSearch={handleSearch} />
-              {isLoading && <p>Загрузка...</p>}
+              {isLoading && (
+                <div className="loading">
+                  <p>Загрузка...</p>
+                </div>
+              )}
               {error && <p>{error.message}</p>}
-              {weatherData && (
+              {weatherData && !isLoading && (
                 <WeatherCard
                   data={weatherData}
                   onFavorite={handleFavorite}

@@ -6,9 +6,7 @@ import { useEffect, useState } from "react";
 function WeatherCard({ data, onFavorite, onRemoveFavorite }) {
   const { name, main, weather, wind, sys } = data;
   const iconUrl = `https://openweathermap.org/img/wn/${weather[0].icon}@4x.png`;
-  const [isFavorite, setIsFavorite] = useState(() =>
-    getFavorites().includes(name)
-  );
+  const isFavorite = getFavorites().includes(name);
 
   const description =
     weather[0].description[0].toUpperCase() + weather[0].description.slice(1);
@@ -25,7 +23,6 @@ function WeatherCard({ data, onFavorite, onRemoveFavorite }) {
     } else {
       onFavorite(name);
     }
-    setIsFavorite((prev) => !prev);
   };
 
   const sunset = new Date(sys.sunset * 1000).toLocaleTimeString("ru-RU", {
@@ -47,10 +44,6 @@ function WeatherCard({ data, onFavorite, onRemoveFavorite }) {
   const formatted = new Intl.DateTimeFormat("ru-RU", options)
     .format(now)
     .replace(/^./, (c) => c.toUpperCase());
-
-  useEffect(() => {
-    setIsFavorite(getFavorites().includes(name));
-  }, [name]);
 
   return (
     <div className={style.card}>
