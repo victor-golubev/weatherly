@@ -1,12 +1,34 @@
-# React + Vite
+# Weatherly
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Веб-приложение для отображения текущей погоды и прогноза по городу.
 
-Currently, two official plugins are available:
+## Функционал
+- Поиск погоды по названию города
+- Просмотр текущей погоды (температура, "ощущается как", влажность, давление, ветер, восход/заход солнца)
+- История поиска с возможностью очистки
+- Клик по городу в истории или избранном — отображение погоды в основной карточке
+- Компонент избранного с добавлением/удалением города
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Стек
+- HTML, CSS, JavaScript
+- React, React Router
+- Lucide React (иконки)
 
-## Expanding the ESLint configuration
+## Структура
+- `components/` — UI-компоненты (`Search`, `WeatherCard`, `Favorites`, `Header`)
+- `pages/` — страницы (`SearchHistoryPage`)
+- `helpers/` — работа с историей и избранным, кастомные хуки
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Установка и запуск
+```bash
+git clone https://github.com/victor-golubev/weatherly.git
+cd weatherly
+npm install
+npm run dev
+```
+
+Приложение будет доступно по http://localhost:5173.
+
+## Ссылка на проект
+
+[Weatherly на Vercel](https://weatherly-woad-five.vercel.app/)
