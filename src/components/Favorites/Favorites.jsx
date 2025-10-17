@@ -3,6 +3,7 @@ import { fetchWeather } from "../../helpers/fetchWeather";
 import style from "./style.module.css";
 import WeatherCard from "../WeatherCard/WeatherCard";
 import FavoritesCard from "../FavoritesCard/FavoritesCard";
+import Skeleton from "../Skeleton/Skeleton";
 
 function Favorites({ favorites, onSelect, onRemoveFavorite }) {
   const [weatherDataList, setWeatherDataList] = useState([]);
@@ -23,19 +24,25 @@ function Favorites({ favorites, onSelect, onRemoveFavorite }) {
     loadFavorites();
   }, [favorites]);
 
+  console.log("favorites length:", favorites.length);
+
   return (
     <div className={style.favorites}>
       <h2 className={style.favorites}>Избранное:</h2>
-      <div className={style.cards}>
-        {weatherDataList.map((data, i) => (
-          <FavoritesCard
-            data={data}
-            onSelect={onSelect}
-            onRemoveFavorite={onRemoveFavorite}
-            key={i}
-          />
-        ))}
-      </div>
+      {weatherDataList.length === 0 ? (
+        <Skeleton type="favorite" count={favorites.length} />
+      ) : (
+        <div className={style.cards}>
+          {weatherDataList.map((data, i) => (
+            <FavoritesCard
+              key={i}
+              data={data}
+              onSelect={onSelect}
+              onRemoveFavorite={onRemoveFavorite}
+            />
+          ))}
+        </div>
+      )}
     </div>
   );
 }

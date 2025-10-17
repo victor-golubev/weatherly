@@ -1,46 +1,44 @@
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import style from "./style.module.css";
-import { clearHistory } from "../../helpers/history";
 import HistoryCard from "../../components/HistoryCard/HistoryCard";
+import { useWeather } from "../../context/WeatherContext";
+import { getHistory, clearHistory } from "../../helpers/history";
+import { useState, useMemo } from "react";
+import style from "./style.module.css";
 
-const SearchHistoryPage = ({ onSelect }) => {
+const SearchHistoryPage = () => {
+  const { setCity } = useWeather();
   const navigate = useNavigate();
-  const [history, setHistory] = useState(
-    () => JSON.parse(localStorage.getItem("history")) || []
-  );
-  const [inputSearch, setInputSearch] = useState("");
-  const [filteredHistory, setFilteredHistory] = useState(history);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [history, setHistory] = useState(getHistory());
 
-  const handleClick = (city) => {
-    onSelect(city);
-    navigate("/");
+  const filteredHistory = useMemo(() => {
+    return history.filter((city) =>
+      city.name.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+  }, [history, searchQuery]);
+
+  const handleClick = (item) => {
+    const cityName = item?.location?.name || item?.name;
+    if (!cityName) return;
+
+    setCity(cityName);
+    navigate("/", { replace: true });
   };
 
   const handleClearHistory = () => {
-    clearHistory([]);
+    clearHistory();
     setHistory([]);
-    setFilteredHistory([]);
   };
 
-  const handleChange = (e) => {
-    const q = e.target.value;
-    setInputSearch(q);
-    setFilteredHistory(
-      history.filter((city) =>
-        city.name.toLowerCase().includes(q.toLowerCase())
-      )
-    );
-  };
-
-  if (history.length === 0) return <p>История поиска пуста.</p>;
+  if (history.length === 0)
+    return <p className={style.empty}>История поиска пуста.</p>;
 
   return (
     <div className={style.history}>
       <input
         type="text"
-        value={inputSearch}
-        onChange={handleChange}
+        value={searchQuery}
+        onChange={(e) => setSearchQuery(e.target.value)}
         placeholder="Поиск по истории"
         className={style.input}
       />
@@ -51,7 +49,11 @@ const SearchHistoryPage = ({ onSelect }) => {
         </button>
       </div>
       {filteredHistory.map((city, i) => (
-        <HistoryCard city={city} key={i} onClick={handleClick} />
+        <HistoryCard
+          key={i}
+          city={city}
+          onClick={() => handleClick(city)} // теперь кликабельно
+        />
       ))}
     </div>
   );

@@ -7,7 +7,7 @@ function Search({ onSearch }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!inputValue.trim()) return;
-    onSearch(inputValue);
+    onSearch(inputValue.trim());
     setInputValue("");
   };
 
