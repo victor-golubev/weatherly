@@ -49,11 +49,7 @@ const SearchHistoryPage = () => {
         </button>
       </div>
       {filteredHistory.map((city, i) => (
-        <HistoryCard
-          key={i}
-          city={city}
-          onClick={() => handleClick(city)} // теперь кликабельно
-        />
+        <HistoryCard key={i} city={city} onClick={() => handleClick(city)} />
       ))}
     </div>
   );

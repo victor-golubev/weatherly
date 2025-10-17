@@ -8,7 +8,7 @@ export const WeatherProvider = ({ children }) => {
   const initialCity =
     history.length > 0
       ? history[0]?.location?.name || history[0]?.name
-      : "Moscow"; // если истории нет — Москва
+      : "Moscow";
 
   const [city, setCity] = useState(initialCity);
 
