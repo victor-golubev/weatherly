@@ -5,7 +5,7 @@ function Header() {
   const location = useLocation();
 
   return (
-    <div className={style.header}>
+    <header className={style.header}>
       <Link to="/" className={style.logo}>
         Weatherly
       </Link>
@@ -13,7 +13,7 @@ function Header() {
         {location.pathname === "/" && <Link to="/history">История поиска</Link>}
         {location.pathname === "/history" && <Link to="/">Главная</Link>}
       </nav>
-    </div>
+    </header>
   );
 }
 

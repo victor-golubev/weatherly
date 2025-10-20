@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 function useFetchWeather({ city }) {
   const API_KEY = import.meta.env.VITE_OPENWEATHER_API_KEY;
-  const [weatherData, setWeatherData] = useState("");
+  const [weatherData, setWeatherData] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 

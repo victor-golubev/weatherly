@@ -1,95 +1,88 @@
+import { useState, useEffect } from "react";
 import style from "./style.module.css";
 import { Heart } from "lucide-react";
 import { getFavorites } from "../../helpers/favorites";
-import { useEffect, useState } from "react";
 
 function WeatherCard({ data, onFavorite, onRemoveFavorite }) {
+  if (!data) return null;
+
   const { name, main, weather, wind, sys } = data;
-  const iconUrl = `https://openweathermap.org/img/wn/${weather[0].icon}@4x.png`;
-  const isFavorite = getFavorites().includes(name);
+  const weatherItem = weather?.[0];
+  if (!main || !wind || !weatherItem || !sys) return null;
 
-  const description =
-    weather[0].description[0].toUpperCase() + weather[0].description.slice(1);
-  if (!data || !main || !weather || !wind) return null;
+  const [isFavorite, setIsFavorite] = useState(false);
 
-  const sunrise = new Date(sys.sunrise * 1000).toLocaleTimeString("ru-RU", {
-    hour: "numeric",
-    minute: "2-digit",
-  });
+  useEffect(() => {
+    setIsFavorite(getFavorites().includes(name));
+  }, [name]);
 
   const toggleFavorite = () => {
     if (isFavorite) {
-      onRemoveFavorite(name);
+      onRemoveFavorite?.(name);
+      setIsFavorite(false);
     } else {
-      onFavorite(name);
+      onFavorite?.(name);
+      setIsFavorite(true);
     }
   };
 
+  const description =
+    weatherItem.description[0].toUpperCase() + weatherItem.description.slice(1);
+  const iconUrl = `https://openweathermap.org/img/wn/${weatherItem.icon}@4x.png`;
+
+  const sunrise = new Date(sys.sunrise * 1000).toLocaleTimeString("ru-RU", {
+    hour: "2-digit",
+    minute: "2-digit",
+  });
   const sunset = new Date(sys.sunset * 1000).toLocaleTimeString("ru-RU", {
-    hour: "numeric",
+    hour: "2-digit",
     minute: "2-digit",
   });
 
-  const now = new Date();
-
-  const options = {
-    weekday: "long",
-    day: "numeric",
-    month: "long",
-    year: "numeric",
-    hour: "2-digit",
-    minute: "2-digit",
-  };
-
-  const formatted = new Intl.DateTimeFormat("ru-RU", options)
-    .format(now)
-    .replace(/^./, (c) => c.toUpperCase());
-
   return (
     <div className={style.card}>
-      <div className={style.date}>{formatted}</div>
       <div className={style.main}>
         <h2 className={style.title}>
           {name} <span>{Math.round(main.temp)}°C</span>
         </h2>
-
-        <img src={iconUrl} alt={weather[0].description} className={style.img} />
-      </div>
-      <div className={style.info}>
-        <div className={style.block}>
-          <p className={style.subtitle}>Ощущается как:</p>
-          <p className={style.value}>{Math.round(main.feels_like)}°C</p>
-        </div>
-        <div className={style.block}>
-          <p className={style.subtitle}>Влажность:</p>
-          <p className={style.value}>{main.humidity}%</p>
-        </div>
-        <div className={style.block}>
-          <p className={style.subtitle}>Давление: </p>
-          <p className={style.value}>{main.pressure} мм</p>
-        </div>
-        <div className={style.block}>
-          <p className={style.subtitle}>Ветер: </p>
-          <p className={style.value}>{wind.speed} м/с</p>
-        </div>
-        <div className={style.block}>
-          <p className={style.subtitle}>Восход:</p>
-          <p className={style.value}> {sunrise}</p>
-        </div>
-        <div className={style.block}>
-          <p className={style.subtitle}>Заход: </p>
-          <p className={style.value}>{sunset}</p>
-        </div>
-      </div>
-
-      <button onClick={toggleFavorite} className={style.favorite}>
-        <Heart
-          size={20}
-          color="white"
-          fill={isFavorite ? "white" : "none"}
-          style={{ cursor: "pointer" }}
+        <img
+          src={iconUrl}
+          alt={description}
+          title={description}
+          className={style.img}
         />
+      </div>
+
+      <button
+        onClick={toggleFavorite}
+        className={style.favorite}
+        aria-label={
+          isFavorite ? "Удалить из избранного" : "Добавить в избранное"
+        }
+      >
+        <Heart size={20} color="white" fill={isFavorite ? "white" : "none"} />
       </button>
+
+      <div className={style.info}>
+        <InfoBlock
+          label="Ощущается как:"
+          value={`${Math.round(main.feels_like)}°C`}
+        />
+        <InfoBlock label="Влажность:" value={`${main.humidity}%`} />
+        <InfoBlock label="Давление:" value={`${main.pressure} мм`} />
+        <InfoBlock label="Ветер:" value={`${wind.speed} м/с`} />
+        <InfoBlock label="Восход:" value={sunrise} />
+        <InfoBlock label="Заход:" value={sunset} />
+      </div>
+    </div>
+  );
+}
+
+function InfoBlock({ label, value }) {
+  return (
+    <div className={style.block}>
+      <p className={style.subtitle}>{label}</p>
+      <p className={style.value}>{value}</p>
     </div>
   );
 }

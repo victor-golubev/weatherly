@@ -1,0 +1,59 @@
+.skeletonContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  justify-content: flex-start;
+}
+
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 25px;
+  border-radius: 20px;
+  background-color: var(--color-primary-dark);
+  font-size: 18px;
+  overflow: hidden;
+}
+
+.card::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -150px;
+  width: 150px;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.4) 50%,
+    transparent 100%
+  );
+  animation: shimmer 1.6s infinite;
+}
+
+.skeleton-weather {
+  width: 860px;
+  height: 380px;
+}
+
+.skeleton-favorite {
+  width: 200px;
+  height: 301px;
+}
+
+.skeleton-history {
+  width: 86px;
+  height: 74px;
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(1000px);
+  }
+}
