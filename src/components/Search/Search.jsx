@@ -14,13 +14,16 @@ function Search({ onSearch }) {
   return (
     <form onSubmit={handleSubmit} className={style.form}>
       <input
+        autoFocus
         type="text"
         value={inputValue}
         onChange={(e) => setInputValue(e.target.value)}
         placeholder="Введите город..."
         className={style.input}
       />
-      <button className={style.button}>Поиск</button>
+      <button type="submit" className={style.button}>
+        Поиск
+      </button>
     </form>
   );
 }

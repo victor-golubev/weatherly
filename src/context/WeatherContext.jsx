@@ -5,10 +5,9 @@ const WeatherContext = createContext();
 
 export const WeatherProvider = ({ children }) => {
   const history = getHistory();
+  const lastSearch = history?.[0];
   const initialCity =
-    history.length > 0
-      ? history[0]?.location?.name || history[0]?.name
-      : "Moscow";
+    lastSearch?.location?.name || lastSearch?.name || "Moscow";
 
   const [city, setCity] = useState(initialCity);
 

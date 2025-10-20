@@ -1,11 +1,20 @@
-export const getHistory = () => {
-  return JSON.parse(localStorage.getItem("history")) || [];
+const HISTORY_KEY = "history";
+
+const readHistory = () => {
+  try {
+    const saved = JSON.parse(localStorage.getItem(HISTORY_KEY));
+    return Array.isArray(saved) ? saved : [];
+  } catch {
+    return [];
+  }
 };
 
-export const addToHistory = (weatherData) => {
-  if (!weatherData) return;
+export const getHistory = () => readHistory();
 
-  const saved = JSON.parse(localStorage.getItem("history")) || [];
+export const addToHistory = (weatherData) => {
+  if (!weatherData || !weatherData.name) return;
+
+  const saved = readHistory();
 
   const entry = {
     ...weatherData,
@@ -13,10 +22,9 @@ export const addToHistory = (weatherData) => {
   };
 
   const updated = [entry, ...saved].slice(0, 10);
-
-  localStorage.setItem("history", JSON.stringify(updated));
+  localStorage.setItem(HISTORY_KEY, JSON.stringify(updated));
 };
 
 export const clearHistory = () => {
-  localStorage.removeItem("history");
+  localStorage.removeItem(HISTORY_KEY);
 };

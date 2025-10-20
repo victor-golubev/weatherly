@@ -9,7 +9,8 @@ function Skeleton({ type = "weather", count = 1 }) {
         <div
           key={i}
           className={`${style.card} ${style[`skeleton-${type}`]}`}
-        ></div>
+          aria-hidden="true"
+        />
       ))}
     </div>
   );

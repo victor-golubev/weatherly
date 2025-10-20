@@ -15,16 +15,19 @@ function Favorites({ favorites, onSelect, onRemoveFavorite }) {
     }
 
     const loadFavorites = async () => {
-      const data = await Promise.all(
-        favorites.map((city) => fetchWeather(city))
-      );
-      setWeatherDataList(data.filter(Boolean));
+      try {
+        const data = await Promise.all(
+          favorites.map((city) => fetchWeather(city))
+        );
+        setWeatherDataList(data.filter(Boolean));
+      } catch (err) {
+        console.error("Ошибка при загрузке избранного:", err);
+        setWeatherDataList([]);
+      }
     };
 
     loadFavorites();
   }, [favorites]);
-
-  console.log("favorites length:", favorites.length);
 
   return (
     <div className={style.favorites}>

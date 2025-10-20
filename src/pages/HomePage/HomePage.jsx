@@ -11,6 +11,7 @@ import {
 import { addToHistory } from "../../helpers/history";
 import { useWeather } from "../../context/WeatherContext";
 import Skeleton from "../../components/Skeleton/Skeleton";
+import WeatherState from "../../components/WeatherState/WeatherState";
 
 export default function HomePage() {
   const { city, setCity } = useWeather();
@@ -42,15 +43,15 @@ export default function HomePage() {
   return (
     <>
       <Search onSearch={handleSearch} />
-      {isLoading && <Skeleton />}
-      {error && <p>{error.message}</p>}
-      {weatherData && !isLoading && (
-        <WeatherCard
-          data={weatherData}
-          onFavorite={handleFavorite}
-          onRemoveFavorite={handleRemoveFavorite}
-        />
-      )}
+
+      <WeatherState
+        weatherData={weatherData}
+        isLoading={isLoading}
+        error={error}
+        onFavorite={handleFavorite}
+        onRemoveFavorite={handleRemoveFavorite}
+      />
+
       {favorites.length > 0 && (
         <Favorites
           favorites={favorites}

@@ -1,4 +1,3 @@
-// src/hooks/useSearchHistory.js
 import { useState, useMemo } from "react";
 import { getHistory, clearHistory } from "../../helpers/history";
 
@@ -15,7 +14,7 @@ export default function useSearchHistory() {
   const handleSearchChange = (q) => setSearchQuery(q);
 
   const handleClear = () => {
-    clearHistory([]);
+    clearHistory();
     setHistory([]);
   };
 
