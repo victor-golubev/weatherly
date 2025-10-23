@@ -1,24 +1,29 @@
 import style from "./style.module.css";
 
 function HistoryCard({ city, onClick }) {
+  const weather = city.weather?.[0];
+  const temp = city.main?.temp ? Math.round(city.main.temp) : "--";
+  const date = city.searchedAt
+    ? new Date(city.searchedAt).toLocaleString("ru-RU")
+    : "--";
+
   return (
-    <div onClick={() => onClick(city.name)} className={style.card}>
+    <div onClick={onClick} className={style.card}>
       <div className={style.left}>
         <p>
-          {city.name} | {city.main?.temp ? Math.round(city.main.temp) : "--"}°C
-          | {city.weather?.[0]?.description}
+          {city.name} | {temp}°C | {weather?.description || "--"}
         </p>
-        <img
-          src={`https://openweathermap.org/img/wn/${city.weather?.[0]?.icon}@4x.png`}
-          alt={city.weather?.[0]?.description}
-          className={style.img}
-          title={city.weather?.[0]?.description ?? ""}
-        />
+        {weather?.icon && (
+          <img
+            src={`https://openweathermap.org/img/wn/${weather.icon}@4x.png`}
+            alt={weather.description}
+            className={style.img}
+            title={weather.description}
+          />
+        )}
       </div>
       <div className={style.right}>
-        <p>
-          {city.searchedAt ? new Date(city.searchedAt).toLocaleString() : "--"}
-        </p>
+        <p>{date}</p>
       </div>
     </div>
   );

@@ -5,10 +5,8 @@ function useCityNavigation() {
   const { setCity } = useWeather();
   const navigate = useNavigate();
 
-  const navigateToCity = (city) => {
-    const cityName = city?.location?.name || city?.name;
+  const navigateToCity = (cityName) => {
     if (!cityName) return;
-
     setCity(cityName);
     navigate("/", { replace: true });
   };

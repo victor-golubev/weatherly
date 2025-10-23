@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import style from "./style.module.css";
 
 function SearchForm({ onSearch }) {
@@ -6,8 +6,9 @@ function SearchForm({ onSearch }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!inputValue.trim()) return;
-    onSearch(inputValue.trim());
+    const trimmedValue = inputValue.trim();
+    if (!trimmedValue) return;
+    onSearch(trimmedValue);
     setInputValue("");
   };
 
@@ -20,8 +21,13 @@ function SearchForm({ onSearch }) {
         onChange={(e) => setInputValue(e.target.value)}
         placeholder="Введите город..."
         className={style.input}
+        aria-label="Поиск города"
       />
-      <button type="submit" className={style.button}>
+      <button
+        type="submit"
+        className={style.button}
+        disabled={!inputValue.trim()}
+      >
         Поиск
       </button>
     </form>

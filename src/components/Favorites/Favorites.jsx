@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import { fetchWeather } from "../../helpers/fetchWeather";
 import style from "./style.module.css";
 import WeatherCard from "../WeatherCard/WeatherCard";
 import FavoritesCard from "../FavoritesCard/FavoritesCard";
 import Skeleton from "../Skeleton/Skeleton";
+import { fetchWeather } from "@/helpers/api";
 
 function Favorites({ favorites, onSelect, onRemoveFavorite }) {
   const [weatherDataList, setWeatherDataList] = useState([]);

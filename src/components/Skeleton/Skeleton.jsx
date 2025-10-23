@@ -1,7 +1,7 @@
 import style from "./style.module.css";
 
 function Skeleton({ type = "weather", count = 1 }) {
-  const cards = new Array(count).fill(null);
+  const cards = Array.from({ length: count });
 
   return (
     <div className={style.skeletonContainer}>

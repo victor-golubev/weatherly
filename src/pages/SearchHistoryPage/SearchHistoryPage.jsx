@@ -2,7 +2,17 @@ import HistoryCard from "../../components/HistoryCard/HistoryCard";
 import useCityNavigation from "@/helpers/hooks/useCityNavigation";
 import useSearchHistory from "@/helpers/hooks/useSearchHistory";
 import style from "./style.module.css";
-import SearchInput from "@/components/SearchInput/SearchInput";
+
+const EmptyState = () => <p className={style.empty}>История поиска пуста.</p>;
+
+const HistoryHeader = ({ onClear }) => (
+  <div className={style.title}>
+    <h1>История поиска</h1>
+    <button className={style.clear} onClick={onClear}>
+      Очистить историю
+    </button>
+  </div>
+);
 
 const SearchHistoryPage = () => {
   const { navigateToCity } = useCityNavigation();
@@ -14,25 +24,28 @@ const SearchHistoryPage = () => {
     handleClearHistory,
   } = useSearchHistory();
 
-  if (history.length === 0)
-    return <p className={style.empty}>История поиска пуста.</p>;
+  if (history.length === 0) return <EmptyState />;
 
   return (
     <div className={style.history}>
-      <SearchInput
+      <input
+        autoFocus
+        type="text"
         value={searchQuery}
         onChange={(e) => setSearchQuery(e.target.value)}
+        placeholder="Поиск по истории"
+        className={style.input}
+        aria-label="Поиск по истории"
       />
 
-      <div className={style.title}>
-        <h1>История поиска</h1>
-        <button className={style.clear} onClick={handleClearHistory}>
-          Очистить историю
-        </button>
-      </div>
+      <HistoryHeader onClear={handleClearHistory} />
 
-      {filteredHistory.map((city, i) => (
-        <HistoryCard key={i} city={city} onClick={() => navigateToCity(city)} />
+      {filteredHistory.map((city) => (
+        <HistoryCard
+          key={city.id || `${city.name}-${city.dt}`}
+          city={city}
+          onClick={() => navigateToCity(city.name)}
+        />
       ))}
     </div>
   );
