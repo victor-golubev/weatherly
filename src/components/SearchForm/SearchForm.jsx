@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import style from "./style.module.css";
 
-function Search({ onSearch }) {
+function SearchForm({ onSearch }) {
   const [inputValue, setInputValue] = useState("");
 
   const handleSubmit = (e) => {
@@ -28,4 +28,4 @@ function Search({ onSearch }) {
   );
 }
 
-export default Search;
+export default SearchForm;

@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import Search from "../../components/Search/Search";
+import SearchForm from "../../components/SearchForm/SearchForm";
 import WeatherCard from "../../components/WeatherCard/WeatherCard";
 import Favorites from "../../components/Favorites/Favorites";
 import useFetchWeather from "../../helpers/hooks/useFetchWeather";
@@ -42,7 +42,7 @@ export default function HomePage() {
 
   return (
     <>
-      <Search onSearch={handleSearch} />
+      <SearchForm onSearch={handleSearch} />
 
       <WeatherState
         weatherData={weatherData}

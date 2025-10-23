@@ -1,9 +1,9 @@
 import { useState, useMemo } from "react";
-import { getHistory, clearHistory } from "../../helpers/history";
+import { clearHistory, getHistory } from "../history";
 
-export default function useSearchHistory() {
-  const [history, setHistory] = useState(() => getHistory());
+function useSearchHistory() {
   const [searchQuery, setSearchQuery] = useState("");
+  const [history, setHistory] = useState(getHistory());
 
   const filteredHistory = useMemo(() => {
     return history.filter((city) =>
@@ -11,19 +11,18 @@ export default function useSearchHistory() {
     );
   }, [history, searchQuery]);
 
-  const handleSearchChange = (q) => setSearchQuery(q);
-
-  const handleClear = () => {
+  const handleClearHistory = () => {
     clearHistory();
     setHistory([]);
   };
 
   return {
     history,
-    filteredHistory,
     searchQuery,
-    handleSearchChange,
-    handleClear,
-    setHistory,
+    setSearchQuery,
+    filteredHistory,
+    handleClearHistory,
   };
 }
+
+export default useSearchHistory;
