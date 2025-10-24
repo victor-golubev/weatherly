@@ -1,44 +1,23 @@
 import { useEffect, useState } from "react";
-import { fetchWeather } from "../../helpers/fetchWeather";
 import style from "./style.module.css";
-import WeatherCard from "../WeatherCard/WeatherCard";
 import FavoritesCard from "../FavoritesCard/FavoritesCard";
 import Skeleton from "../Skeleton/Skeleton";
+import { fetchWeather } from "@/helpers/weatherApi";
+import useFavoriteWeather from "@/helpers/hooks/useFavoriteWeather";
 
 function Favorites({ favorites, onSelect, onRemoveFavorite }) {
-  const [weatherDataList, setWeatherDataList] = useState([]);
-
-  useEffect(() => {
-    if (favorites.length === 0) {
-      setWeatherDataList([]);
-      return;
-    }
-
-    const loadFavorites = async () => {
-      try {
-        const data = await Promise.all(
-          favorites.map((city) => fetchWeather(city))
-        );
-        setWeatherDataList(data.filter(Boolean));
-      } catch (err) {
-        console.error("Ошибка при загрузке избранного:", err);
-        setWeatherDataList([]);
-      }
-    };
-
-    loadFavorites();
-  }, [favorites]);
+  const { data: weatherDataList, isLoading } = useFavoriteWeather(favorites);
 
   return (
-    <div className={style.favorites}>
-      <h2 className={style.favorites}>Избранное:</h2>
-      {weatherDataList.length === 0 ? (
+    <div className={style.favoritesContainer}>
+      <h2 className={style.title}>Избранное</h2>
+      {isLoading ? (
         <Skeleton type="favorite" count={favorites.length} />
       ) : (
         <div className={style.cards}>
-          {weatherDataList.map((data, i) => (
+          {weatherDataList.map((data) => (
             <FavoritesCard
-              key={i}
+              key={data.id || `${data.name}-${data.dt}`}
               data={data}
               onSelect={onSelect}
               onRemoveFavorite={onRemoveFavorite}

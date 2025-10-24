@@ -1,43 +1,26 @@
-import { useState, useEffect } from "react";
 import style from "./style.module.css";
 import { Heart } from "lucide-react";
-import { getFavorites } from "../../helpers/favorites";
+import { formatTime } from "@/helpers/formatTime";
+import { capitalize } from "@/helpers/formatText";
 
-function WeatherCard({ data, onFavorite, onRemoveFavorite }) {
+function WeatherCard({ data, onFavorite, onRemoveFavorite, isFavorite }) {
   if (!data) return null;
 
   const { name, main, weather, wind, sys } = data;
   const weatherItem = weather?.[0];
   if (!main || !wind || !weatherItem || !sys) return null;
 
-  const [isFavorite, setIsFavorite] = useState(false);
-
-  useEffect(() => {
-    setIsFavorite(getFavorites().includes(name));
-  }, [name]);
-
   const toggleFavorite = () => {
     if (isFavorite) {
       onRemoveFavorite?.(name);
-      setIsFavorite(false);
     } else {
       onFavorite?.(name);
-      setIsFavorite(true);
     }
   };
 
-  const description =
-    weatherItem.description[0].toUpperCase() + weatherItem.description.slice(1);
+  const description = capitalize(weatherItem.description);
   const iconUrl = `https://openweathermap.org/img/wn/${weatherItem.icon}@4x.png`;
-
-  const sunrise = new Date(sys.sunrise * 1000).toLocaleTimeString("ru-RU", {
-    hour: "2-digit",
-    minute: "2-digit",
-  });
-  const sunset = new Date(sys.sunset * 1000).toLocaleTimeString("ru-RU", {
-    hour: "2-digit",
-    minute: "2-digit",
-  });
+  const pressureInMmHg = Math.round(main.pressure * 0.75);
 
   return (
     <div className={style.card}>
@@ -69,10 +52,10 @@ function WeatherCard({ data, onFavorite, onRemoveFavorite }) {
           value={`${Math.round(main.feels_like)}°C`}
         />
         <InfoBlock label="Влажность:" value={`${main.humidity}%`} />
-        <InfoBlock label="Давление:" value={`${main.pressure} мм`} />
+        <InfoBlock label="Давление:" value={`${pressureInMmHg} мм`} />
         <InfoBlock label="Ветер:" value={`${wind.speed} м/с`} />
-        <InfoBlock label="Восход:" value={sunrise} />
-        <InfoBlock label="Заход:" value={sunset} />
+        <InfoBlock label="Восход:" value={formatTime(sys.sunrise)} />
+        <InfoBlock label="Заход:" value={formatTime(sys.sunset)} />
       </div>
     </div>
   );

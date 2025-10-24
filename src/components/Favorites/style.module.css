@@ -1,12 +1,16 @@
+.favoritesContainer {
+  margin-top: 40px;
+}
+
+.title {
+  margin-bottom: 15px;
+}
+
 .cards {
   display: flex;
   justify-content: flex-start;
   flex-wrap: wrap;
   gap: 20px;
-}
-
-.favorites {
-  margin-top: 50px;
 }
 
 .favorites {

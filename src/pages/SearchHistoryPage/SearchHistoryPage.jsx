@@ -1,55 +1,51 @@
-import { useNavigate } from "react-router-dom";
 import HistoryCard from "../../components/HistoryCard/HistoryCard";
-import { useWeather } from "../../context/WeatherContext";
-import { getHistory, clearHistory } from "../../helpers/history";
-import { useState, useMemo } from "react";
+import useCityNavigation from "@/helpers/hooks/useCityNavigation";
+import useSearchHistory from "@/helpers/hooks/useSearchHistory";
 import style from "./style.module.css";
 
+const EmptyState = () => <p className={style.empty}>История поиска пуста.</p>;
+
+const HistoryHeader = ({ onClear }) => (
+  <div className={style.title}>
+    <h1>История поиска</h1>
+    <button className={style.clear} onClick={onClear}>
+      Очистить историю
+    </button>
+  </div>
+);
+
 const SearchHistoryPage = () => {
-  const { setCity } = useWeather();
-  const navigate = useNavigate();
-  const [searchQuery, setSearchQuery] = useState("");
-  const [history, setHistory] = useState(getHistory());
+  const { navigateToCity } = useCityNavigation();
+  const {
+    history,
+    searchQuery,
+    setSearchQuery,
+    filteredHistory,
+    handleClearHistory,
+  } = useSearchHistory();
 
-  const filteredHistory = useMemo(() => {
-    return history.filter((city) =>
-      city.name.toLowerCase().includes(searchQuery.toLowerCase())
-    );
-  }, [history, searchQuery]);
-
-  const handleClick = (item) => {
-    const cityName = item?.location?.name || item?.name;
-    if (!cityName) return;
-
-    setCity(cityName);
-    navigate("/", { replace: true });
-  };
-
-  const handleClearHistory = () => {
-    clearHistory();
-    setHistory([]);
-  };
-
-  if (history.length === 0)
-    return <p className={style.empty}>История поиска пуста.</p>;
+  if (history.length === 0) return <EmptyState />;
 
   return (
     <div className={style.history}>
       <input
+        autoFocus
         type="text"
         value={searchQuery}
         onChange={(e) => setSearchQuery(e.target.value)}
         placeholder="Поиск по истории"
         className={style.input}
+        aria-label="Поиск по истории"
       />
-      <div className={style.title}>
-        <h1>История поиска</h1>
-        <button className={style.clear} onClick={handleClearHistory}>
-          Очистить историю
-        </button>
-      </div>
-      {filteredHistory.map((city, i) => (
-        <HistoryCard key={i} city={city} onClick={() => handleClick(city)} />
+
+      <HistoryHeader onClear={handleClearHistory} />
+
+      {filteredHistory.map((city) => (
+        <HistoryCard
+          key={city.historyId}
+          city={city}
+          onClick={() => navigateToCity(city.name)}
+        />
       ))}
     </div>
   );

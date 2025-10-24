@@ -3,20 +3,6 @@
   flex-direction: column;
 }
 
-.input {
-  height: 100%;
-  margin-bottom: 30px;
-  padding: 20px;
-  background-color: var(--color-primary-dark);
-  border: none;
-  color: var(--color-text);
-}
-input::placeholder {
-  color: var(--color-text);
-  opacity: 0.6;
-  font-weight: 300;
-}
-
 .title {
   display: flex;
   justify-content: space-between;
@@ -32,4 +18,18 @@ input::placeholder {
   font-size: 14px;
   padding: 10px;
   height: fit-content;
+}
+
+.input {
+  height: 100%;
+  margin-bottom: 30px;
+  padding: 20px;
+  background-color: var(--color-primary-dark);
+  border: none;
+  color: var(--color-text);
+}
+.input::placeholder {
+  color: var(--color-text);
+  opacity: 0.6;
+  font-weight: 300;
 }
