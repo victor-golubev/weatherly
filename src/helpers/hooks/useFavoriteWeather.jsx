@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { fetchWeather } from "@/helpers/weatherApi"; // не забыть импорт
+import { fetchWeather } from "@/helpers/weatherApi";
 
 function useFavoriteWeather(favorites) {
   const [data, setData] = useState([]);
@@ -11,7 +11,7 @@ function useFavoriteWeather(favorites) {
       return;
     }
 
-    let isCancelled = false; // защита от утечек
+    let isCancelled = false;
 
     const loadFavorites = async () => {
       try {
