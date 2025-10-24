@@ -1,26 +1,40 @@
 import style from "./style.module.css";
 import { X } from "lucide-react";
+import { capitalize } from "@/helpers/formatText";
 
-function FavoritesCard({ data, onFavorite, onSelect, onRemoveFavorite }) {
+function FavoritesCard({ data, onSelect, onRemoveFavorite }) {
   if (!data) return null;
 
-  const { name, main, weather, wind } = data;
-
+  const { name, main, weather } = data;
   const weatherItem = weather?.[0];
-  if (!main || !weatherItem || !wind) return null;
 
-  const description =
-    weatherItem.description[0].toUpperCase() + weatherItem.description.slice(1);
+  if (!main || !weatherItem) return null;
 
+  const description = capitalize(weatherItem.description);
   const iconUrl = `https://openweathermap.org/img/wn/${weatherItem.icon}@4x.png`;
 
   return (
-    <div className={style.card} onClick={() => onSelect?.(name)}>
-      <img src={iconUrl} alt={description} title={description} />
+    <div
+      className={style.card}
+      onClick={() => onSelect?.(name)}
+      role="button"
+      tabIndex={0}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          onSelect?.(name);
+        }
+      }}
+    >
+      <img
+        src={iconUrl}
+        alt={description}
+        title={description}
+        className={style.icon}
+      />
 
-      <h2 className={style.title}>
-        {name} <span>{Math.round(main?.temp ?? 0)}°C</span>
-      </h2>
+      <h3 className={style.title}>
+        {name} <span>{Math.round(main.temp)}°C</span>
+      </h3>
 
       <p className={style.description}>{description}</p>
 
@@ -30,7 +44,7 @@ function FavoritesCard({ data, onFavorite, onSelect, onRemoveFavorite }) {
             e.stopPropagation();
             onRemoveFavorite(name);
           }}
-          className={style.favorite}
+          className={style.removeBtn}
           aria-label={`Удалить ${name} из избранного`}
         >
           <X size={16} color="white" />

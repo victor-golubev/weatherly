@@ -18,6 +18,7 @@ export const addToHistory = (weatherData) => {
 
   const entry = {
     ...weatherData,
+    historyId: `${weatherData.id}-${Date.now()}`,
     searchedAt: new Date().toISOString(),
   };
 

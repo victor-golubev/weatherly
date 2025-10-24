@@ -42,7 +42,7 @@ const SearchHistoryPage = () => {
 
       {filteredHistory.map((city) => (
         <HistoryCard
-          key={city.id || `${city.name}-${city.dt}`}
+          key={city.historyId}
           city={city}
           onClick={() => navigateToCity(city.name)}
         />

@@ -16,7 +16,6 @@ export const WeatherProvider = ({ children }) => {
   const [error, setError] = useState(null);
   const userSearchRef = useRef(false);
 
-  // Fetch погоды при изменении города
   useEffect(() => {
     if (!city) return;
 
@@ -46,7 +45,6 @@ export const WeatherProvider = ({ children }) => {
     loadWeather();
   }, [city, API_KEY]);
 
-  // Сохранение в историю
   useEffect(() => {
     if (weatherData && userSearchRef.current) {
       addToHistory(weatherData);

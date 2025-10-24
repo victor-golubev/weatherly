@@ -20,6 +20,7 @@ export default function HomePage() {
         error={error}
         onFavorite={handleFavorite}
         onRemoveFavorite={handleRemoveFavorite}
+        isFavorite={favorites.includes(weatherData?.name)}
       />
 
       {favorites.length > 0 && (

@@ -7,20 +7,26 @@ export default function WeatherState({
   error,
   onFavorite,
   onRemoveFavorite,
+  isFavorite,
 }) {
   if (isLoading) return <Skeleton />;
 
   if (error) return <p>{error.message}</p>;
 
-  if (weatherData) {
+  if (!weatherData) {
     return (
-      <WeatherCard
-        data={weatherData}
-        onFavorite={onFavorite}
-        onRemoveFavorite={onRemoveFavorite}
-      />
+      <div className={style.empty}>
+        <p>Введите название города для поиска погоды</p>
+      </div>
     );
   }
 
-  return null;
+  return (
+    <WeatherCard
+      data={weatherData}
+      onFavorite={onFavorite}
+      onRemoveFavorite={onRemoveFavorite}
+      isFavorite={isFavorite}
+    />
+  );
 }
