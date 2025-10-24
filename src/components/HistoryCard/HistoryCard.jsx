@@ -1,11 +1,10 @@
 import style from "./style.module.css";
+import { formatDate } from "@/helpers/formatDate";
 
 function HistoryCard({ city, onClick }) {
   const weather = city.weather?.[0];
   const temp = city.main?.temp ? Math.round(city.main.temp) : "--";
-  const date = city.searchedAt
-    ? new Date(city.searchedAt).toLocaleString("ru-RU")
-    : "--";
+  const date = city.searchedAt ? formatDate(city.searchedAt) : "--";
 
   return (
     <div onClick={onClick} className={style.card}>

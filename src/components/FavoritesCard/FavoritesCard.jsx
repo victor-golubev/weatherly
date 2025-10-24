@@ -1,8 +1,13 @@
 import style from "./style.module.css";
 import { X } from "lucide-react";
 import { capitalize } from "@/helpers/formatText";
+import { memo } from "react";
 
-function FavoritesCard({ data, onSelect, onRemoveFavorite }) {
+const FavoritesCard = memo(function FavoritesCard({
+  data,
+  onSelect,
+  onRemoveFavorite,
+}) {
   if (!data) return null;
 
   const { name, main, weather } = data;
@@ -12,6 +17,11 @@ function FavoritesCard({ data, onSelect, onRemoveFavorite }) {
 
   const description = capitalize(weatherItem.description);
   const iconUrl = `https://openweathermap.org/img/wn/${weatherItem.icon}@4x.png`;
+
+  const handleRemove = (e) => {
+    e.stopPropagation();
+    onRemoveFavorite(name);
+  };
 
   return (
     <div
@@ -40,18 +50,16 @@ function FavoritesCard({ data, onSelect, onRemoveFavorite }) {
 
       {onRemoveFavorite && (
         <button
-          onClick={(e) => {
-            e.stopPropagation();
-            onRemoveFavorite(name);
-          }}
+          onClick={handleRemove}
           className={style.removeBtn}
           aria-label={`Удалить ${name} из избранного`}
+          type="button"
         >
           <X size={16} color="white" />
         </button>
       )}
     </div>
   );
-}
+});
 
 export default FavoritesCard;
